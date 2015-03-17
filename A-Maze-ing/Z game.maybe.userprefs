@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\create columns.js">
+    <Files>
+      <File FileName="Assets\Scripts\create columns.js" Line="3" Column="1" />
+      <File FileName="Assets\Scripts\maze_cell.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Maze1.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\call stuff.js" Line="3" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
