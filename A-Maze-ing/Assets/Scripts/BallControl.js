@@ -11,19 +11,19 @@ function Update ()
 	//ball rotation
 	var rotationX : float = Input.GetAxis ("Horizontal") * rotationSpeed;
 	rotationX *= Time.deltaTime;
-	rigidbody.AddTorque (Vector3.back * rotationX);
+	GetComponent.<Rigidbody>().AddTorque (Vector3.back * rotationX);
 	
 	var rotationZ : float = Input.GetAxis ("Vertical") * rotationSpeed;
 	rotationZ *= Time.deltaTime;
-	rigidbody.AddTorque (Vector3.right * rotationZ);
+	GetComponent.<Rigidbody>().AddTorque (Vector3.right * rotationZ);
 	
 
 	
-	if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rigidbody.velocity.y) < 4 && isFalling == false)
+	if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(GetComponent.<Rigidbody>().velocity.y) < 4 && isFalling == false)
 	{	
-		rigidbody.velocity.y = jumpHight;
+		GetComponent.<Rigidbody>().velocity.y = jumpHight;
 	}
-	lastYvelocity = Mathf.Abs(rigidbody.velocity.y);
+	lastYvelocity = Mathf.Abs(GetComponent.<Rigidbody>().velocity.y);
 }
 function OnCollisionStay()
 {	// need to know if this was a wall or not
@@ -31,7 +31,7 @@ function OnCollisionStay()
 }
 function OnCollisionExit ()
 {
-	var floor = gameObject.FindWithTag ('');
+	//var floor = gameObject.FindWithTag ('');
 	isFalling = true;
 }
 function OnCollisionEnter ()
@@ -39,7 +39,7 @@ function OnCollisionEnter ()
 	//causes bounce
 	if (lastYvelocity > 1)
 	{
-		rigidbody.velocity.y = lastYvelocity * 0.8;
+		GetComponent.<Rigidbody>().velocity.y = lastYvelocity * 0.8;
 	}
 	if (lastYvelocity < 4)
 	{	 isFalling = false;
