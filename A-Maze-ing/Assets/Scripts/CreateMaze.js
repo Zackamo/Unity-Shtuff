@@ -3,9 +3,17 @@
 var barrier : Transform;
 var path : Transform;
 var wall : Transform;
+ 
+function SetUp(){
+	//Instantiate(Camera,new Vector3(0,0,0),Camera);
+}
 
 //types are: "Straight", "Turn", "3Way", "4Way", "Gap", "Wall"
-function Create(type,x,y,z,rotation){
+//rotations are 0 = from x, 1 = from z, 2 = from -x, and 3 = from -z
+function Create(type,xIn,yIn,zIn,rotation){
+			var x : int = xIn;
+			var y : int = yIn;
+			var z : int = zIn;
 			//create corner barriers and center path => exist in all types
 			Instantiate(barrier,new Vector3(x+1,y,z+1),barrier.rotation);
 			Instantiate(barrier,new Vector3(x+1,y,z-1),barrier.rotation);
@@ -17,7 +25,7 @@ function Create(type,x,y,z,rotation){
 	switch(type){
 		case "Straight":
 			//straight along x-axis
-			if(rotation === 0){
+			if(rotation == 0){
 				Instantiate(barrier,new Vector3(x,y,z+1),barrier.rotation);
 				Instantiate(barrier,new Vector3(x,y,z-1),barrier.rotation);
 				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
