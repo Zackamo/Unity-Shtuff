@@ -3,9 +3,14 @@
 var barrier : Transform;
 var path : Transform;
 var wall : Transform;
+var ball : Transform;
+var ballLight : Transform;
+var cameraLight : Transform;
  
 function SetUp(){
-	//Instantiate(Camera,new Vector3(0,0,0),Camera);
+	Instantiate(ballLight,new Vector3(0,0,0),ballLight.rotation);
+	Instantiate(cameraLight,new Vector3(0,0,0),cameraLight.rotation);
+	Instantiate(ball,new Vector3(3,1,0),ball.rotation);
 }
 
 //types are: "Straight", "Turn", "3Way", "4Way", "Gap", "Wall"
@@ -32,7 +37,7 @@ function Create(type,xIn,yIn,zIn,rotation){
 				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
 			}
 			//straight along z-axis
-			else{
+			else if(rotation == 1){
 				Instantiate(barrier,new Vector3(x+1,y,z),barrier.rotation);
 				Instantiate(barrier,new Vector3(x-1,y,z),barrier.rotation);
 				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
@@ -40,6 +45,34 @@ function Create(type,xIn,yIn,zIn,rotation){
 			}
 			break;
 		case "Turn":
+			if(rotation == 0){
+			//-Z to +X 
+				Instantiate(barrier,new Vector3(x,y,z+1),barrier.rotation);
+				Instantiate(barrier,new Vector3(x-1,y,z),barrier.rotation);
+				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+			}
+			else if(rotation == 1){
+			//+X to +Z
+				Instantiate(barrier,new Vector3(x,y,z-1),barrier.rotation);
+				Instantiate(barrier,new Vector3(x-1,y,z),barrier.rotation);
+				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+			}
+			else if(rotation == 2){
+			//+Z to -X
+				Instantiate(barrier,new Vector3(x,y,z-1),barrier.rotation);
+				Instantiate(barrier,new Vector3(x+1,y,z),barrier.rotation);
+				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+			}
+			else if(rotation == 3){
+			//-X to -Z
+				Instantiate(barrier,new Vector3(x,y,z+1),barrier.rotation);
+				Instantiate(barrier,new Vector3(x+1,y,z),barrier.rotation);
+				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+			}
 			break;
 		case "3Way":
 			break;
@@ -54,7 +87,15 @@ function Create(type,xIn,yIn,zIn,rotation){
 
 function Start() { 
 
-Create("Straight",0,0,0,0);
+SetUp();
+Create("Straight",3,0,0,1);
+Create("Straight",-3,0,0,1);
+Create("Straight",0,0,3,0);
+Create("Straight",0,0,-3,0);
+Create("Turn",-3,0,3,0);
+Create("Turn",-3,0,-3,1);
+Create("Turn",3,0,3,3);
+Create("Turn",3,0,-3,2);
 
 }
 

@@ -46,12 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Ball Follow.js" />
      <Compile Include="Assets\Scripts\BallControl.js" />
      <Compile Include="Assets\Scripts\CameraFollow.js" />
      <Compile Include="Assets\Scripts\CreateMaze draft.js" />
      <Compile Include="Assets\Scripts\CreateMaze.js" />
      <Compile Include="Assets\Scripts\CreateMaze2.js" />
+     <Compile Include="Assets\Scripts\Follow.js" />
      <Compile Include="Assets\Scripts\Maze1.js" />
      <Compile Include="Assets\Scripts\Respawn.js" />
      <Compile Include="Assets\Scripts\create columns.js" />
