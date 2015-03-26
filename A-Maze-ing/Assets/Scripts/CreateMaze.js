@@ -6,11 +6,17 @@ var wall : Transform;
 var ball : Transform;
 var ballLight : Transform;
 var cameraLight : Transform;
+var startX = 0;
+var startY = 1;
+var startZ = 0;
  
-function SetUp(){
-	Instantiate(ballLight,new Vector3(0,0,0),ballLight.rotation);
+function SetUp(startX,startY,startZ){
+	var X : int = startX;
+	var Y : int = startY;
+	var Z : int = startZ; 
+	Instantiate(ballLight,new Vector3(X,Y,Z),ballLight.rotation);
 	Instantiate(cameraLight,new Vector3(0,0,0),cameraLight.rotation);
-	Instantiate(ball,new Vector3(3,1,0),ball.rotation);
+	Instantiate(ball,new Vector3(X,Y,Z),ball.rotation);
 }
 
 //types are: "Straight", "Turn", "3Way", "4Way", "Gap", "Wall"
@@ -87,7 +93,7 @@ function Create(type,xIn,yIn,zIn,rotation){
 
 function Start() { 
 
-SetUp();
+SetUp(startX,startY,startZ);
 Create("Straight",3,0,0,1);
 Create("Straight",-3,0,0,1);
 Create("Straight",0,0,3,0);
