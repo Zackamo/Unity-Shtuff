@@ -1,0 +1,17 @@
+A-Maze-ing/Temp/*
+A-Maze-ing/Library/*
+A-Maze-ing/Build/*
+!A-Maze-ing/Library/*.asset
+!A-Maze-ing/Library/AssetImportState
+!A-Maze-ing/Library/AssetVersioning.db
+!A-Maze-ing/Library/BuildPlayer.prefs
+!A-Maze-ing/Library/ScriptMapper
+!A-Maze-ing/Library/assetservercachev3
+!A-Maze-ing/Library/expandedItems
+!A-Maze-ing/Library/guidmapper
+!A-Maze-ing/Library/unity default resources
+!A-Maze-ing/Library/unity editor resources
+!A-Maze-ing/Library/metadata/
+
+*.pidb
+*.userprefs
