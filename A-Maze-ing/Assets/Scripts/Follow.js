@@ -6,5 +6,5 @@ var lift = 0;
 var offset = 0;
 function Update () 
 {
-	transform.position = target.position + Vector3(offset,lift,distance);
+	 transform.position = target.position + Vector3(offset,lift,distance);
 } 

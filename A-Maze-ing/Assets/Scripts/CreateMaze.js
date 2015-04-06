@@ -14,9 +14,9 @@ function SetUp(startX,startY,startZ){
 	var X : int = startX;
 	var Y : int = startY;
 	var Z : int = startZ; 
-	Instantiate(ballLight,new Vector3(X,Y,Z),ballLight.rotation);
-	Instantiate(cameraLight,new Vector3(0,0,0),cameraLight.rotation);
-	Instantiate(ball,new Vector3(X,Y,Z),ball.rotation);
+	cameraLight.position = Vector3(X,Y,Z);
+	ball.position = Vector3(X,Y,Z);
+	ballLight.position = Vector3(X,Y,Z);
 }
 
 //types are: "Straight", "Turn", "3Way", "4Way", "Gap", "Wall"
