@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 var target : Transform;
-var distance = -7;
+var distance = -5;
 var lift = 3;
 var offset = 3;
 function Update () 
