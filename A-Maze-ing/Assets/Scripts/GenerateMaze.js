@@ -12,6 +12,7 @@ class MazeSegment {
 	var rotation : int;
 	var isUsed : int;
 	var segmentFrom = [];
+	var isStart :int;
 
 	public function MazeSegment (type,X:int,Y:int,Z:int,R:int) {
 		this.type = type;
@@ -40,10 +41,22 @@ function GenerateArray (size:int) {
 			}
 		}
 	}
+	Debug.Log("array generated");
 }
-function GenerateMaze (){
-	var randomX = Random.Range(0,size);
-	var randomY = Random.Range(0,size);
-	var randomZ = Random.Range(0,size);
-	mazeArray[randomX][randomY][randomZ];
+function FindEnd(aX,aY,aZ){
+		//mazeArray[aX][aY][aZ].isStart = 2;
+}
+function GenerateMaze (size:int){
+	GenerateArray(size);
+	var randomX = Random.value;
+	var randomY = Random.value;
+	var randomZ = Random.value;
+	randomX *= size;
+	randomY *= size;
+	randomZ *= size;
+	FindEnd(randomX,randomY,randomZ);
+}
+
+function Start(){
+	GenerateMaze(size);
 }
