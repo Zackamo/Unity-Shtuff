@@ -1,7 +1,6 @@
 ﻿#pragma strict
 
 var size : int = 10; //the size in all dimentions of the maze
-var mazeArray  = [[[]]];
 var nextSegment = [];
 
 class MazeSegment {
@@ -34,27 +33,29 @@ class MazeSegment {
 }
 
 function GenerateArray (size:int) {
+	var mazeArray = [[[]]];
 	for(var h = 0; h < size; h++){
 		for (var k = 0; k < size; k++) {
 			for (var l = 0; l < size; l++) {
 				mazeArray[h][k][l] = new MazeSegment("none",h,k,l,0);
+				return mazeArray;
 			}
 		}
 	}
 	Debug.Log("array generated");
 }
-function FindEnd(aX,aY,aZ){
-		//mazeArray[aX][aY][aZ].isStart = 2;
+function FindEnd(aX : int,aY : int,aZ : int,mazeArray){
+		mazeArray[aX,aY,aZ].isStart = 2;
 }
 function GenerateMaze (size:int){
-	GenerateArray(size);
+	var mazeArray = GenerateArray(size);
 	var randomX = Random.value;
 	var randomY = Random.value;
 	var randomZ = Random.value;
 	randomX *= size;
 	randomY *= size;
 	randomZ *= size;
-	FindEnd(randomX,randomY,randomZ);
+	FindEnd(randomX,randomY,randomZ,mazeArray);
 }
 
 function Start(){

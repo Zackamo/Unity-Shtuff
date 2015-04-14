@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\CreateMaze.js">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GenerateMaze.js">
     <Files>
+      <File FileName="Assets\Scripts\Test.js" Line="6" Column="32" />
       <File FileName="Assets\Scripts\CreateMaze.js" Line="205" Column="23" />
-      <File FileName="Assets\Scripts\GenerateMaze.js" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GenerateMaze.js" Line="48" Column="22" />
       <File FileName="Assets\Scripts\CameraFollow.js" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Follow.js" Line="1" Column="1" />
     </Files>
