@@ -1,8 +1,9 @@
 ﻿#pragma strict
  
-var barrier : Transform;
-var path : Transform;
-var wall : Transform;
+static var barrier : Transform;
+static var path : Transform;
+static var wall : Transform;
+static var end : Transform;
 var ball : Transform;
 var ballLight : Transform;
 var cameraLight : Transform;
@@ -21,7 +22,7 @@ function SetUp(startX,startY,startZ){
 
 //types are: "Straight", "Turn", "3Way", "4Way", "Gap", "Wall"
 //rotations are 0 = from x, 1 = from z, 2 = from -x, and 3 = from -z
-function Create(type,xIn,yIn,zIn,rotation){
+static function Create(type,xIn,yIn,zIn,rotation){
 			var x : int = xIn;
 			var y : int = yIn;
 			var z : int = zIn;
@@ -186,7 +187,25 @@ function Create(type,xIn,yIn,zIn,rotation){
 			else{
 				Debug.Log("Invalid rotation for Wall");
 			}
-			break;			
+			break;	
+		case "End":
+			if(rotation == 0){
+			//on X axis
+				Instantiate(barrier,new Vector3(x,y,z+1),barrier.rotation);
+				Instantiate(barrier,new Vector3(x,y,z-1),barrier.rotation);
+				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+				Instantiate(path,new Vector3(x,y,z),path.rotation);
+				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+			} 	
+			else if(rotation == 1){
+			// on Z axis
+				Instantiate(barrier,new Vector3(x,y,z+1),barrier.rotation);
+				Instantiate(barrier,new Vector3(x,y,z-1),barrier.rotation);
+				Instantiate(end,new Vector3(x+1,y,z),end.rotation);
+				Instantiate(end,new Vector3(x,y,z),end.rotation);
+				Instantiate(end,new Vector3(x-1,y,z),end.rotation);
+			}	
+		break;
 	}
 }
 

@@ -2,6 +2,7 @@
 
 var size : int = 10; //the size in all dimentions of the maze
 var nextSegment = [];
+static var mazeArray : MazeSegment[,,];
 
 class MazeSegment {
 	var type = "none";
@@ -33,19 +34,21 @@ class MazeSegment {
 }
 
 function GenerateArray (size:int) {
-	var mazeArray = [[[]]];
 	for(var h = 0; h < size; h++){
 		for (var k = 0; k < size; k++) {
 			for (var l = 0; l < size; l++) {
-				mazeArray[h][k][l] = new MazeSegment("none",h,k,l,0);
+				mazeArray[h,k,l] = new MazeSegment("none",h,k,l,0);
+				mazeArray = new MazeSegment[size,size,size];
 				return mazeArray;
 			}
 		}
 	}
 	Debug.Log("array generated");
 }
-function FindEnd(aX : int,aY : int,aZ : int,mazeArray){
+function FindEnd(aX:int,aY:int,aZ:int){
 		mazeArray[aX,aY,aZ].isStart = 2;
+		var aR = Random.Range(0,2);
+		CreateMaze.Create("End",aX,aY,aZ,aR);
 }
 function GenerateMaze (size:int){
 	var mazeArray = GenerateArray(size);
@@ -55,7 +58,7 @@ function GenerateMaze (size:int){
 	randomX *= size;
 	randomY *= size;
 	randomZ *= size;
-	FindEnd(randomX,randomY,randomZ,mazeArray);
+	FindEnd(randomX,randomY,randomZ);
 }
 
 function Start(){
