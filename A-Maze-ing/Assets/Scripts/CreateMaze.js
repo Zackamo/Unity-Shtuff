@@ -1,9 +1,9 @@
 ﻿#pragma strict
  
-static var barrier : Transform;
-static var path : Transform;
-static var wall : Transform;
-static var end : Transform;
+public var barrier : Transform;
+public var path : Transform;
+public var wall : Transform;
+public var end : Transform;
 var ball : Transform;
 var ballLight : Transform;
 var cameraLight : Transform;
@@ -22,7 +22,7 @@ function SetUp(startX,startY,startZ){
 
 //types are: "Straight", "Turn", "3Way", "4Way", "Gap", "Wall"
 //rotations are 0 = from x, 1 = from z, 2 = from -x, and 3 = from -z
-static function Create(type,xIn,yIn,zIn,rotation){
+public function Create(type,xIn,yIn,zIn,rotation){
 			var x : int = xIn;
 			var y : int = yIn;
 			var z : int = zIn;
@@ -210,7 +210,7 @@ static function Create(type,xIn,yIn,zIn,rotation){
 }
 
 function Start() { 
-	Tutorial(startX,startY,startZ);
+	//Tutorial(startX,startY,startZ);
 }
 
 function Tutorial(startX,startY,startZ){
