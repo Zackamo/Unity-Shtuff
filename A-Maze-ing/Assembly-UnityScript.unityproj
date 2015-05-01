@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Maze1.js" />
      <Compile Include="Assets\Scripts\Respawn.js" />
      <Compile Include="Assets\Scripts\Test.js" />
+     <Compile Include="Assets\Scripts\WinTheGame.js" />
      <Compile Include="Assets\Scripts\maze_cell.js" />
      <None Include="Assets\Standard Assets\Skyboxes\_skybox info.txt" />
  <Reference Include="UnityEngine.UI">
