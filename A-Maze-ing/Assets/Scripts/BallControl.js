@@ -3,8 +3,7 @@
 var rotationSpeed = 200;
 var jumpHight = 12;
 var lastYvelocity = 0;
-
-private var isFalling = false;
+public var isFalling = false;
 
 function Update () 
 {
@@ -25,7 +24,7 @@ function Update ()
 	}
 	lastYvelocity = Mathf.Abs(GetComponent.<Rigidbody>().velocity.y);
 }
-function OnCollisionStay()
+/*function OnCollisionStay()
 {	// need to know if this was a wall or not
 	isFalling = false;
 }
@@ -33,15 +32,15 @@ function OnCollisionExit ()
 {
 	//var floor = gameObject.FindWithTag ('');
 	isFalling = true;
-}
+}*/
 function OnCollisionEnter ()
 {
 	//causes bounce
 	if (lastYvelocity > 1)
 	{
-		GetComponent.<Rigidbody>().velocity.y = lastYvelocity * 0.8;
+		GetComponent.<Rigidbody>().velocity.y = lastYvelocity * 0.5;
 	}
-	if (lastYvelocity < 4)
+	/*if (lastYvelocity < 4)
 	{	 isFalling = false;
-	}
+	}*/
 }

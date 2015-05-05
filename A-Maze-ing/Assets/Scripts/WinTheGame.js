@@ -1,5 +1,5 @@
 ﻿#pragma strict
 
-function OnCollisionEnter(){
+function OnCollisionEnter(other : Collision){
 	Debug.Log("win");
 }
