@@ -18,21 +18,19 @@ function Update ()
 	
 
 	
-	if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(GetComponent.<Rigidbody>().velocity.y) < 4 && isFalling == false)
+	if (Input.GetKeyDown(KeyCode.Space) && isFalling == false)
 	{	
 		GetComponent.<Rigidbody>().velocity.y = jumpHight;
 	}
 	lastYvelocity = Mathf.Abs(GetComponent.<Rigidbody>().velocity.y);
+	if (lastYvelocity == 0){
+		//isFalling = false;
+	}
+	else {
+		isFalling = true;
+	}
 }
-/*function OnCollisionStay()
-{	// need to know if this was a wall or not
-	isFalling = false;
-}
-function OnCollisionExit ()
-{
-	//var floor = gameObject.FindWithTag ('');
-	isFalling = true;
-}*/
+
 function OnCollisionEnter ()
 {
 	//causes bounce
@@ -40,7 +38,7 @@ function OnCollisionEnter ()
 	{
 		GetComponent.<Rigidbody>().velocity.y = lastYvelocity * 0.5;
 	}
-	/*if (lastYvelocity < 4)
-	{	 isFalling = false;
-	}*/
+	else{
+		 isFalling = false;
+	}
 }

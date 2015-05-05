@@ -225,7 +225,7 @@ public function Create(type,xIn,yIn,zIn,rotation){
 				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
 				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
 				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-				Instantiate(wall,new Vector3(x,y+3,z),wall.rotation);
+				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
 			}
 			else if (rotation == 1){
 			//From +X
@@ -233,7 +233,7 @@ public function Create(type,xIn,yIn,zIn,rotation){
 				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
 				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
 				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(wall,new Vector3(x,y+3,z),wall.rotation);
+				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
 			}
 			else if (rotation == 2){
 			//From -X
@@ -241,7 +241,7 @@ public function Create(type,xIn,yIn,zIn,rotation){
 				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
 				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
 				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(wall,new Vector3(x,y+3,z),wall.rotation);
+				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
 			}
 			else if (rotation == 3){
 			//From +Z
@@ -249,7 +249,7 @@ public function Create(type,xIn,yIn,zIn,rotation){
 				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
 				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
 				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-				Instantiate(wall,new Vector3(x,y+3,z),wall.rotation);
+				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
 			}
 			else{
 				Debug.Log("Invalid rotation for Wall");

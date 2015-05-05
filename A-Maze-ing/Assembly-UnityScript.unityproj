@@ -48,7 +48,6 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\BallControl.js" />
      <Compile Include="Assets\Scripts\CameraFollow.js" />
-     <Compile Include="Assets\Scripts\CanJump.js" />
      <Compile Include="Assets\Scripts\CreateTutorial.js" />
      <Compile Include="Assets\Scripts\Follow.js" />
      <Compile Include="Assets\Scripts\GenerateMaze.js" />
