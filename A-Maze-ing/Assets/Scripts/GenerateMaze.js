@@ -28,44 +28,41 @@ class MazeSegment {
 		Y = Y*5;
 		Z = Z*3;
 		rotation = R;
-		isUsed = 0; //0 = unused, 1 = needs to be used, 2 = is used, 3 = can't be used
+		isUsed = 0; //0 = unused, 1 = needs to be used, 2 = is used/can't be used
 		segmentFrom = [];
 		isStart = 0; //0 = no, 1 = start, 2 = end
-	}
-	public function ChangeUsed (newUsed){
-		this.isUsed = newUsed;
 	}
 	public function CangeFrom(newFrom){
 		var currentLength = this.segmentFrom.Length;
 		this.segmentFrom[currentLength] = newFrom; 
 	}
 	public function CreateMe(){
-		if(this.isUsed <= 1){
+		if(this.isUsed != 2){
 			GenerateMaze.Create(this.type,this.X,this.Y,this.Z,this.rotation);
+			this.isUsed = 2;
 		}
 	}
 }
 
 function GenerateMaze (size:int){
 	var mazeArray = GenerateArray(size);
-	var randomX = Random.Range(0,size+1);
-	var randomY = Random.Range(0,size+1);
-	var randomZ = Random.Range(0,size+1);
+	var randomX = Random.Range(0,size);
+	var randomY = Random.Range(0,size);
+	var randomZ = Random.Range(0,size);
 	FindEnd(randomX,randomY,randomZ);
 }
 
 function GenerateArray (size:int) {
 	Debug.Log("array started");
 	mazeArray = new MazeSegment[size,size,size];
-	for(var h = 0; h <= size; h++){
-		for (var k = 0; k <= size; k++) {
-			for (var l = 0; l <= size; l++) {
+	for(var h = 0; h < size; h++){
+		for (var k = 0; k < size; k++) {
+			for (var l = 0; l < size; l++) {
 				mazeArray[h,k,l] = new MazeSegment("none",h,k,l,0);
 			}
 		}
 	}
 	Debug.Log("array generated");
-	Debug.Log(typeof mazeArray[5,5,5]);
 	return mazeArray;
 }
 
@@ -77,7 +74,7 @@ function FindEnd(aX:int,aY:int,aZ:int){
 	mazeArray[aX,aY,aZ].type = "Straight";
 	mazeArray[aX,aY,aZ].CreateMe();
 	for(var x=0;x>aY;x++){
-		mazeArray[aX,x,aZ].isUsed = 3;
+		mazeArray[aX,x,aZ].isUsed = 2;
 	}
 	if(aR == 0){
 		nextSegment[nextSegment.Length] = mazeArray[aX+1,aY,aZ];

@@ -1,1 +1,1 @@
-﻿#pragma strict
+﻿
