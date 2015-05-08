@@ -51,7 +51,6 @@
      <Compile Include="Assets\Scripts\CreateTutorial.js" />
      <Compile Include="Assets\Scripts\Follow.js" />
      <Compile Include="Assets\Scripts\GenerateMaze.js" />
-     <Compile Include="Assets\Scripts\Maze1.js" />
      <Compile Include="Assets\Scripts\Respawn.js" />
      <Compile Include="Assets\Scripts\Test.js" />
      <Compile Include="Assets\Scripts\WinTheGame.js" />

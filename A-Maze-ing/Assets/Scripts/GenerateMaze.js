@@ -1,7 +1,7 @@
 ﻿#pragma strict
 
 var size : int = 10; //the size in all dimentions of the maze
-var nextSegment = [];
+var nextSegment = [0];
 var mazeArray : MazeSegment[,,];
 public var barrier : Transform;
 public var path : Transform;
@@ -19,7 +19,7 @@ class MazeSegment {
 	var Z : int;
 	var rotation : int;
 	var isUsed : int;
-	var segmentFrom = [];
+	var previousSegments:int;
 	var isStart :int;
 
 	public function MazeSegment (aType,X:int,Y:int,Z:int,R:int) {
@@ -29,26 +29,22 @@ class MazeSegment {
 		Z = Z*3;
 		rotation = R;
 		isUsed = 0; //0 = unused, 1 = needs to be used, 2 = is used/can't be used
-		segmentFrom = [];
+		previousSegments = 0;
 		isStart = 0; //0 = no, 1 = start, 2 = end
-	}
-	public function CangeFrom(newFrom){
-		var currentLength = this.segmentFrom.Length;
-		this.segmentFrom[currentLength] = newFrom; 
 	}
 	public function CreateMe(){
 		if(this.isUsed != 2){
-			GenerateMaze.Create(this.type,this.X,this.Y,this.Z,this.rotation);
 			this.isUsed = 2;
+			//GenerateMaze.Create(this.type,this.X,this.Y,this.Z,this.rotation);
 		}
 	}
 }
 
 function GenerateMaze (size:int){
 	var mazeArray = GenerateArray(size);
-	var randomX = Random.Range(0,size);
-	var randomY = Random.Range(0,size);
-	var randomZ = Random.Range(0,size);
+	var randomX = Random.Range(1,size-1);
+	var randomY = Random.Range(1,size-1);
+	var randomZ = Random.Range(1,size-1);
 	FindEnd(randomX,randomY,randomZ);
 }
 
@@ -69,20 +65,25 @@ function GenerateArray (size:int) {
 function FindEnd(aX:int,aY:int,aZ:int){
 	Debug.Log("Start findEnd");
 	mazeArray[aX,aY,aZ].isStart = 2;
+	mazeArray[aX,aY,aZ].previousSegments ++;
 	var aR = Random.Range(0,2);
 	mazeArray[aX,aY,aZ].rotation = aR;
-	mazeArray[aX,aY,aZ].type = "Straight";
+	mazeArray[aX,aY,aZ].type = "End";
 	mazeArray[aX,aY,aZ].CreateMe();
 	for(var x=0;x>aY;x++){
 		mazeArray[aX,x,aZ].isUsed = 2;
 	}
+	Debug.Log(nextSegment.Length);
+	var place = nextSegment.Length+1;
 	if(aR == 0){
-		nextSegment[nextSegment.Length] = mazeArray[aX+1,aY,aZ];
-		nextSegment[nextSegment.Length] = mazeArray[aX-1,aY,aZ];
+		nextSegment[place] = 0;
+		//nextSegment[place] = mazeArray[aX-1,aY,aZ];
+		//nextSegment[place+1] = mazeArray[aX+1,aY,aZ];
 	}
 	else if (aR == 1){
-		nextSegment[nextSegment.Length] = mazeArray[aX,aY,aZ+1];
-		nextSegment[nextSegment.Length] = mazeArray[aX,aY,aZ-1];
+		nextSegment[place] = 0;
+		//nextSegment[place] = mazeArray[aX,aY,aZ+1];
+		//nextSegment[place+1] = mazeArray[aX,aY,aZ-1];
 	}
 	Debug.Log(nextSegment.Length);
 }
