@@ -1,8 +1,11 @@
 ﻿#pragma strict
 
+//a place to remember
+//http://wiki.unity3d.com/index.php/Choosing_the_right_collection_type
+
 var size : int = 10; //the size in all dimentions of the maze
-var nextSegment = [0];
-var mazeArray : MazeSegment[,,];
+var nextSegment = new ArrayList();
+var mazeArray : MazeSegment[,,] = new MazeSegment[size,size,size];
 public var barrier : Transform;
 public var path : Transform;
 public var wall : Transform;
@@ -35,7 +38,7 @@ class MazeSegment {
 	public function CreateMe(){
 		if(this.isUsed != 2){
 			this.isUsed = 2;
-			//GenerateMaze.Create(this.type,this.X,this.Y,this.Z,this.rotation);
+			GenerateMaze.Create(this.type,this.X,this.Y,this.Z,this.rotation);
 		}
 	}
 }
@@ -50,7 +53,6 @@ function GenerateMaze (size:int){
 
 function GenerateArray (size:int) {
 	Debug.Log("array started");
-	mazeArray = new MazeSegment[size,size,size];
 	for(var h = 0; h < size; h++){
 		for (var k = 0; k < size; k++) {
 			for (var l = 0; l < size; l++) {
@@ -64,28 +66,26 @@ function GenerateArray (size:int) {
 
 function FindEnd(aX:int,aY:int,aZ:int){
 	Debug.Log("Start findEnd");
-	mazeArray[aX,aY,aZ].isStart = 2;
-	mazeArray[aX,aY,aZ].previousSegments ++;
+	var currentSegment = mazeArray[aX,aY,aZ];
+	currentSegment.isStart = 2;
+	currentSegment.previousSegments ++;
 	var aR = Random.Range(0,2);
-	mazeArray[aX,aY,aZ].rotation = aR;
-	mazeArray[aX,aY,aZ].type = "End";
-	mazeArray[aX,aY,aZ].CreateMe();
+	currentSegment.rotation = aR;
+	currentSegment.type = "End";
+	currentSegment.CreateMe();
+	mazeArray[aX,aY,aZ] = currentSegment;
 	for(var x=0;x>aY;x++){
-		mazeArray[aX,x,aZ].isUsed = 2;
+		currentSegment = mazeArray[aX,x,aZ];
+		currentSegment.isUsed = 2;
+		mazeArray[aX,x,aZ] = currentSegment;
 	}
-	Debug.Log(nextSegment.Length);
-	var place = nextSegment.Length+1;
-	if(aR == 0){
-		nextSegment[place] = 0;
-		//nextSegment[place] = mazeArray[aX-1,aY,aZ];
-		//nextSegment[place+1] = mazeArray[aX+1,aY,aZ];
+	/*if(aR == 0){
+		nextSegment.Add();
 	}
 	else if (aR == 1){
-		nextSegment[place] = 0;
-		//nextSegment[place] = mazeArray[aX,aY,aZ+1];
-		//nextSegment[place+1] = mazeArray[aX,aY,aZ-1];
-	}
-	Debug.Log(nextSegment.Length);
+		
+	}*/
+	Debug.Log(nextSegment[0]);
 }
 
 public function Create(type,xIn,yIn,zIn,rotation){
