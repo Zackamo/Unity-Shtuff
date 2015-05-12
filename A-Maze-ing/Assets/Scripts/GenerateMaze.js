@@ -35,12 +35,6 @@ class MazeSegment {
 		previousSegments = 0;
 		isStart = 0; //0 = no, 1 = start, 2 = end
 	}
-	public function CreateMe(){
-		if(this.isUsed != 2){
-			this.isUsed = 2;
-			GenerateMaze.Create(this.type,this.X,this.Y,this.Z,this.rotation);
-		}
-	}
 }
 
 function GenerateMaze (size:int){
@@ -72,7 +66,7 @@ function FindEnd(aX:int,aY:int,aZ:int){
 	var aR = Random.Range(0,2);
 	currentSegment.rotation = aR;
 	currentSegment.type = "End";
-	currentSegment.CreateMe();
+	Create(currentSegment);
 	mazeArray[aX,aY,aZ] = currentSegment;
 	for(var x=0;x>aY;x++){
 		currentSegment = mazeArray[aX,x,aZ];
@@ -88,189 +82,193 @@ function FindEnd(aX:int,aY:int,aZ:int){
 	Debug.Log(nextSegment[0]);
 }
 
-public function Create(type,xIn,yIn,zIn,rotation){
-			var x : int = xIn;
-			var y : int = yIn;
-			var z : int = zIn;
-			//create corner barriers => exist in all types
-			Instantiate(barrier,new Vector3(x+1,y+3,z+1),barrier.rotation);
-			Instantiate(barrier,new Vector3(x+1,y+3,z-1),barrier.rotation);
-			Instantiate(barrier,new Vector3(x-1,y+3,z+1),barrier.rotation);
-			Instantiate(barrier,new Vector3(x-1,y+3,z-1),barrier.rotation);
-	
-	switch(type){
-		case "Straight":
+public function Create(Segment){
+	if (Segment.isUsed != 2){
+		var type = Segment.GetType;
+		var x : int = Segment.X;
+		var y : int = Segment.Y;
+		var z : int = Segment.Z;
+		var rotation = Segment.rotation;   
+		//create corner barriers => exist in all types
+		Instantiate(barrier,new Vector3(x+1,y+3,z+1),barrier.rotation);
+		Instantiate(barrier,new Vector3(x+1,y+3,z-1),barrier.rotation);
+		Instantiate(barrier,new Vector3(x-1,y+3,z+1),barrier.rotation);
+		Instantiate(barrier,new Vector3(x-1,y+3,z-1),barrier.rotation);
+		
+		switch(type){
+			case "Straight":
 			//straight along X-axis
-			if(rotation == 0){
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+				if(rotation == 0){
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+				}
+				//straight along Z-axis
+				else if(rotation == 1){
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+				}
+				else{
+					Debug.Log("Invalid rotation for straight");
+				}
+				break;
+			case "Turn":
+				if(rotation == 0){
+				//-Z to +X 
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+				}
+				else if(rotation == 1){
+				//+X to +Z
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+				}
+				else if(rotation == 2){
+				//+Z to -X
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+				}
+				else if(rotation == 3){
+				//-X to -Z
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+				}
+				else{
+					Debug.Log("Invalid rotation for turn");
+				}
+				break;
+			case "3Way":
+				if (rotation == 0){
+				//-Z to X axis
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+				}
+				else if(rotation == 1){
+				//+X to Z axis
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+				}
+				else if(rotation == 2){
+				//+Z to X axis
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+				}
+				else if(rotation == 3){
+				//-X to Z axis
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+				}
+				else{
+					Debug.Log("Invalid rotation for 3-Way Intersection");
+				}
+				break;
+			case "4Way":
 				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
 				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-			}
-			//straight along Z-axis
-			else if(rotation == 1){
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
 				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
 				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-			}
-			else{
-				Debug.Log("Invalid rotation for straight");
-			}
+				Instantiate(path,new Vector3(x,y,z),path.rotation);
+				break;
+			case "Gap":
+				if(rotation == 0){
+				//along the X axis
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+				}
+				else if (rotation == 1){
+				//along the Z axis
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+				}
+				else{
+					Debug.Log("Invalid rotation for Gap");
+				}
+				break;
+			case "Wall":
+				if (rotation == 0){
+				//From -Z
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(path,new Vector3(x,y,z-1),path.rotation);
+					Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
+				}
+				else if (rotation == 1){
+				//From +X
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
+				}
+				else if (rotation == 2){
+				//From -X
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+					Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
+				}
+				else if (rotation == 3){
+				//From +Z
+					Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(path,new Vector3(x,y,z+1),path.rotation);
+					Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
+				}
+				else{
+					Debug.Log("Invalid rotation for Wall");
+				}
+				break;	
+			case "End":
+				if(rotation == 0){
+				//on X axis
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(path,new Vector3(x+1,y,z),path.rotation);
+					Instantiate(path,new Vector3(x,y,z),path.rotation);
+					Instantiate(path,new Vector3(x-1,y,z),path.rotation);
+				} 	
+				else if(rotation == 1){
+				// on Z axis
+					Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
+					Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
+					Instantiate(end,new Vector3(x+1,y,z),end.rotation);
+					Instantiate(end,new Vector3(x,y,z),end.rotation);
+					Instantiate(end,new Vector3(x-1,y,z),end.rotation);
+				}	
 			break;
-		case "Turn":
-			if(rotation == 0){
-			//-Z to +X 
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-			}
-			else if(rotation == 1){
-			//+X to +Z
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-			}
-			else if(rotation == 2){
-			//+Z to -X
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-			}
-			else if(rotation == 3){
-			//-X to -Z
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-			}
-			else{
-				Debug.Log("Invalid rotation for turn");
-			}
-			break;
-		case "3Way":
-			if (rotation == 0){
-			//-Z to X axis
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-			}
-			else if(rotation == 1){
-			//+X to Z axis
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-			}
-			else if(rotation == 2){
-			//+Z to X axis
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-			}
-			else if(rotation == 3){
-			//-X to Z axis
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-			}
-			else{
-				Debug.Log("Invalid rotation for 3-Way Intersection");
-			}
-			break;
-		case "4Way":
-			Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-			Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-			Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-			Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-			Instantiate(path,new Vector3(x,y,z),path.rotation);
-			break;
-		case "Gap":
-			if(rotation == 0){
-			//along the X axis
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-			}
-			else if (rotation == 1){
-			//along the Z axis
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-			}
-			else{
-				Debug.Log("Invalid rotation for Gap");
-			}
-			break;
-		case "Wall":
-			if (rotation == 0){
-			//From -Z
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(path,new Vector3(x,y,z-1),path.rotation);
-				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
-			}
-			else if (rotation == 1){
-			//From +X
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
-			}
-			else if (rotation == 2){
-			//From -X
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
-			}
-			else if (rotation == 3){
-			//From +Z
-				Instantiate(barrier,new Vector3(x-1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x+1,y+3,z),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(path,new Vector3(x,y,z+1),path.rotation);
-				Instantiate(wall,new Vector3(x,y+2.5,z),wall.rotation);
-			}
-			else{
-				Debug.Log("Invalid rotation for Wall");
-			}
-			break;	
-		case "End":
-			if(rotation == 0){
-			//on X axis
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(path,new Vector3(x+1,y,z),path.rotation);
-				Instantiate(path,new Vector3(x,y,z),path.rotation);
-				Instantiate(path,new Vector3(x-1,y,z),path.rotation);
-			} 	
-			else if(rotation == 1){
-			// on Z axis
-				Instantiate(barrier,new Vector3(x,y+3,z+1),barrier.rotation);
-				Instantiate(barrier,new Vector3(x,y+3,z-1),barrier.rotation);
-				Instantiate(end,new Vector3(x+1,y,z),end.rotation);
-				Instantiate(end,new Vector3(x,y,z),end.rotation);
-				Instantiate(end,new Vector3(x-1,y,z),end.rotation);
-			}	
-		break;
+		}
 	}
 }
 
@@ -283,7 +281,7 @@ function SetUp(startX,startY,startZ){
 function CreateMaze(){
 	//instantiates everytning
 }
-function Tutorial(startX,startY,startZ){
+/*function Tutorial(startX,startY,startZ){
 	SetUp(startX,startY,startZ);
 	Create("Straight",0,0,0,1);
 	Create("3Way",0,0,-3,2);
@@ -293,7 +291,7 @@ function Tutorial(startX,startY,startZ){
 	Create("Wall",0,0,3,0);
 	Create("Wall",0,5,3,0);
 	Create("Turn",-3,0,3,2);
-}
+}*/
 
 function Start(){
 	GenerateMaze(size);
