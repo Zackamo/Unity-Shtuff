@@ -66,8 +66,8 @@ function FindEnd(aX:int,aY:int,aZ:int){
 	var aR = Random.Range(0,2);
 	currentSegment.rotation = aR;
 	currentSegment.type = "End";
-	Create(currentSegment);
 	mazeArray[aX,aY,aZ] = currentSegment;
+	CreateMe(mazeArray[aX,aY,aZ]);
 	for(var x=0;x>aY;x++){
 		currentSegment = mazeArray[aX,x,aZ];
 		currentSegment.isUsed = 2;
@@ -82,13 +82,19 @@ function FindEnd(aX:int,aY:int,aZ:int){
 	Debug.Log(nextSegment[0]);
 }
 
-public function Create(Segment){
+public function CreateMe(Segment){
 	if (Segment.isUsed != 2){
 		var type = Segment.GetType;
 		var x : int = Segment.X;
 		var y : int = Segment.Y;
 		var z : int = Segment.Z;
 		var rotation = Segment.rotation;   
+		return Create(type,x,y,z,rotation);
+	}
+}
+
+public function Create(type,x:int,y:int,z:int,rotation){
+	
 		//create corner barriers => exist in all types
 		Instantiate(barrier,new Vector3(x+1,y+3,z+1),barrier.rotation);
 		Instantiate(barrier,new Vector3(x+1,y+3,z-1),barrier.rotation);
@@ -269,7 +275,7 @@ public function Create(Segment){
 				}	
 			break;
 		}
-	}
+
 }
 
 function SetUp(startX,startY,startZ){ 
